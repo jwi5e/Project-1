@@ -26,12 +26,14 @@ class Car:
         self.foodPrepTime = random.weibullvariate(6, 2.0)
         foodPrep = self.env.timeout(self.foodPrepTime)
         self.res[0].release(req)
-
+        req = self.res[1].request()
+        yield req
         print('Start paying::', self)
         self.payTime = random.weibullvariate(2, 1.5)
         pay = self.env.timeout(self.payTime)
         yield pay
         print("Finish paying::", self)
+        self.res[1].release(req)
 
         print('Waiting for pickup::', self)
 
