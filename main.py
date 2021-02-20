@@ -32,17 +32,17 @@ class Car:
         foodPrep = self.env.timeout(self.foodPrepTime)
 
 
-        req = self.res[2].request()
-        yield req
+        req2 = self.res[2].request()
+        yield req2
         self.res[1].release(order)
 
         ##yield foodPrep
 
 
 
-        req = self.res[3].request()
-        yield req
-        self.res[2].release(req)
+        req3 = self.res[3].request()
+        yield req3
+        self.res[2].release(req2)
         print('Start paying::', self)
         self.payTime = random.weibullvariate(2, 1.5)
         pay = self.env.timeout(self.payTime)
@@ -50,15 +50,15 @@ class Car:
         print("Finish paying::", self)
 
 
-        req = self.res[4].request()
-        yield req
-        self.res[3].release(req)
+        req4 = self.res[4].request()
+        yield req4
+        self.res[3].release(req3)
         print('Waiting for pickup::', self)
 
 
-        req = self.res[5].request()
-        yield req
-        self.res[4].release(req)
+        req5 = self.res[5].request()
+        yield req5
+        self.res[4].release(req4)
         print('Start pickup::', self)
         self.pickupTime = random.weibullvariate(2, 1.5)
         pickup = self.env.timeout(self.pickupTime)
@@ -74,7 +74,7 @@ class Car:
         ##else:
             ##print("oops")
 
-        self.res[5].release(req)
+        self.res[5].release(req5)
 
     def __str__(self):
         return f'Car: {self.name:d} time: {self.env.now:.3f}'
@@ -86,7 +86,7 @@ def arrivalGen(env, res):
 
         c = Car(env, res)
         env.process(c.drive())
-        evt = env.timeout(random.expovariate(1.0/10.0))
+        evt = env.timeout(random.expovariate(1.0/2.0))
         yield evt
 
 
