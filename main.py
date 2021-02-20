@@ -1,10 +1,7 @@
 import random
 import simpy
 import matplotlib
-SERVED = 0
-LEFT = 0
-SERVICETIME = 0
-RUNS = 0
+
 
 class Car:
     carNumber = 0
@@ -17,8 +14,8 @@ class Car:
         self.name = Car.carNumber
 
 
-    def drive(self):
-        self.RUNS += 1
+    def drive(self, SERVED, LEFT, SERVICETIME, RUNS):
+        RUNS.append("1")
         self.arrivalTime = self.env.now
         print('Arrival::', self)
         req = self.res[0].request()
@@ -28,7 +25,7 @@ class Car:
             if (roll >= 80):
                 self.res[0].release(req)
                 print("homie dipped::", self)
-                self.LEFT += 1
+                LEFT.append("1")
                 return
 
         order = self.res[1].request()
@@ -89,22 +86,22 @@ class Car:
         else:
             print("oops")
 
-        self.SERVICETIME = self.leaveTime - self.arrivalTime
+        SERVICETIME.append(self.leaveTime - self.arrivalTime)
         self.res[5].release(req5)
-        self.SERVED += 1
+        SERVED.append("1")
 
-
+        print(SERVED, LEFT, SERVICETIME, RUNS)
 
     def __str__(self):
         return f'Car: {self.name:d} time: {self.env.now:.3f}'
 
 
-def arrivalGen(env, res):
+def arrivalGen(env, res, SERVED, LEFT, SERVICETIME, RUNS):
 
     while True:
 
         c = Car(env, res)
-        env.process(c.drive())
+        env.process(c.drive(SERVED, LEFT, SERVICETIME, RUNS))
         evt = env.timeout(random.expovariate(1.0/10.0))
         yield evt
 
@@ -117,9 +114,14 @@ payWindow = simpy.Resource(env,1)
 betweenPayAndPickup = simpy.Resource(env, 1)
 pickupWindow = simpy.Resource(env,1)
 
+SERVED = []
+LEFT = []
+SERVICETIME = []
+RUNS = []
 
 res = [initialLine, orderWindow, betweenOrderAndPay, payWindow, betweenPayAndPickup, pickupWindow]
-env.process(arrivalGen(env, res))
+env.process(arrivalGen(env, res, SERVED, LEFT, SERVICETIME, RUNS))
+
 
 env.run(until=120.0)
 
