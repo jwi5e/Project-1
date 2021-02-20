@@ -17,7 +17,12 @@ class Car:
         print('Arrival::', self)
         req = self.res[0].request()
         yield req
-        print(res[0].count)
+        if (res[0].count == 7):
+            roll = random.randint(0, 100)
+            if (roll >= 80):
+                self.res[0].release(req)
+                print("homie dipped::", self)
+                return
 
 
         order = self.res[1].request()
