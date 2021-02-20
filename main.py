@@ -18,41 +18,42 @@ class Car:
         req = self.res[0].request()
         yield req
         self.res[0].release(req)
-        print('Start ordering::', self)
+
         order = self.res[1].request()
         yield order
+        print('Start ordering::', self)
         self.orderTime = random.weibullvariate(3, 1.5)
         evt = self.env.timeout(self.orderTime)
         yield evt
         print("Finish ordering::", self)
         self.res[1].release(order)
 
-        self.foodPrepTime = random.weibullvariate(6, 2.0)
-        foodPrep = self.env.timeout(self.foodPrepTime)
         req = self.res[2].request()
         yield req
-        print('Start paying::', self)
+        self.foodPrepTime = random.weibullvariate(6, 2.0)
+        foodPrep = self.env.timeout(self.foodPrepTime)
+        yield foodPrep
+
+
         self.res[2].release(req)
         req = self.res[3].request()
         yield req
+        print('Start paying::', self)
         self.payTime = random.weibullvariate(2, 1.5)
         pay = self.env.timeout(self.payTime)
         yield pay
         print("Finish paying::", self)
         self.res[3].release(req)
 
-        print('Waiting for pickup::', self)
-
         req = self.res[4].request()
         yield req
+        print('Waiting for pickup::', self)
 
-        print('Start pickup::', self)
         self.res[4].release(req)
         req = self.res[5].request()
-        yield req
+        print('Start pickup::', self)
         self.pickupTime = random.weibullvariate(2, 1.5)
         pickup = self.env.timeout(self.pickupTime)
-
         val = yield pickup & foodPrep # simpy.anyOf(evt,evt,evt)
 
         print("Finish pickup::", self)
