@@ -1,10 +1,14 @@
 import random
 import simpy
+import matplotlib.pyplot as plt
 
-AR = [1.0, 2.0, 3.0, 4.0, 5.0, 10.0, 15.0, 20.0]    # Rates for cars to be generated
+AR = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0,
+      10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0,
+      17.0, 18.0, 19.0, 20.0]    # Rates for cars to be generated
 SERVED = 0
 BALK = 0
 SERVICE_TIME = 0
+ORDER_WINDOWS = 2   # Number of order windows
 SIM_NUM = 10        # Number of times to run the simulation
 SERVED_DATA = []    # Number of people served per run
 BALK_DATA = []      # Number of people who left per run
@@ -111,7 +115,7 @@ for x in AR:
         env = simpy.Environment()
         
         initialLine = simpy.Resource(env, 7)
-        orderWindow = simpy.Resource(env, 1)
+        orderWindow = simpy.Resource(env, ORDER_WINDOWS)
         betweenOrderAndPay = simpy.Resource(env, 4)
         payWindow = simpy.Resource(env,1)
         betweenPayAndPickup = simpy.Resource(env, 1)
@@ -133,5 +137,23 @@ for x in AR:
 print('SERVED_DATA::', SERVED_DATA)
 print('BALK_DATA::', BALK_DATA)
 print('TIME_DATA::', TIME_DATA)
+
+plt.plot(AR, SERVED_DATA, label = "Scenario 1")
+plt.title('People Served/Arrival rate')
+plt.xlabel('Arrival Rate')
+plt.ylabel('People Served')
+plt.show()
+
+plt.plot(AR, BALK_DATA, label = "Scenario 1")
+plt.title('People Balked/Arrival rate')
+plt.xlabel('Arrival Rate')
+plt.ylabel('People Balked')
+plt.show()
+
+plt.plot(AR, TIME_DATA, label = "Scenario 1")
+plt.title('Average Service Time/Arrival rate')
+plt.xlabel('Arrival Rate')
+plt.ylabel('Average Service Time')
+plt.show()
     
 
