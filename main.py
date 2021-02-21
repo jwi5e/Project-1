@@ -1,3 +1,5 @@
+''' This code was written and tested by Jamee Wise and Nicholas Gross.'''
+
 import random
 import simpy
 import matplotlib.pyplot as plt
@@ -8,7 +10,7 @@ AR = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0,
 SERVED = 0
 BALK = 0
 SERVICE_TIME = 0
-ORDER_WINDOWS = 2   # Number of order windows
+ORDER_WINDOWS = 1   # Number of order windows
 SIM_NUM = 10        # Number of times to run the simulation
 SERVED_DATA = []    # Number of people served per run
 BALK_DATA = []      # Number of people who left per run
