@@ -1,13 +1,14 @@
 import random
 import simpy
 
-
+AR = [1.0, 2.0, 3.0, 4.0, 5.0, 10.0, 15.0, 20.0]    # Rates for cars to be generated
 SERVED = 0
-LEFT = 0
-SERVICETIME = 0
-SERVED_DATA = []
-BALK_DATA = []
-TIME_DATA = []
+BALK = 0
+SERVICE_TIME = 0
+SIM_NUM = 10        # Number of times to run the simulation
+SERVED_DATA = []    # Number of people served per run
+BALK_DATA = []      # Number of people who left per run
+TIME_DATA = []      # Average service time per run
 
 class Car:
 
@@ -29,8 +30,8 @@ class Car:
             if (roll >= 80):
                 self.res[0].release(req)
                 print("homie dipped::", self)
-                global LEFT
-                LEFT += 1
+                global BALK
+                BALK += 1
                 return
 
 
@@ -88,39 +89,49 @@ class Car:
         SERVED += 1
         
         endTime = self.env.now
-        global SERVICETIME
-        SERVICETIME += endTime - self.arrivalTime
+        global SERVICE_TIME
+        SERVICE_TIME += endTime - self.arrivalTime
         
         self.res[5].release(req5)
 
     def __str__(self):
         return f'Car: {self.name:d} time: {self.env.now:.3f}'
 
-def arrivalGen(env, res):
+def arrivalGen(env, res, AR):
 
     while True:
 
         c = Car(env, res)
         env.process(c.drive())
-        evt = env.timeout(random.expovariate(1.0/5.0))
+        evt = env.timeout(random.expovariate(1.0/AR))
         yield evt
 
+for x in AR:
+    for i in range(SIM_NUM):
+        env = simpy.Environment()
+        
+        initialLine = simpy.Resource(env, 7)
+        orderWindow = simpy.Resource(env, 1)
+        betweenOrderAndPay = simpy.Resource(env, 4)
+        payWindow = simpy.Resource(env,1)
+        betweenPayAndPickup = simpy.Resource(env, 1)
+        pickupWindow = simpy.Resource(env,1)
 
-env = simpy.Environment()
-initialLine = simpy.Resource(env, 7)
-orderWindow = simpy.Resource(env, 1)
-betweenOrderAndPay = simpy.Resource(env, 4)
-payWindow = simpy.Resource(env,1)
-betweenPayAndPickup = simpy.Resource(env, 1)
-pickupWindow = simpy.Resource(env,1)
+        res = [initialLine, orderWindow, betweenOrderAndPay, payWindow, betweenPayAndPickup, pickupWindow]
 
+        env.process(arrivalGen(env, res, x))
 
-res = [initialLine, orderWindow, betweenOrderAndPay, payWindow, betweenPayAndPickup, pickupWindow]
+        env.run(until=120.0)
 
-env.process(arrivalGen(env, res))
+    SERVED_DATA.append(SERVED/SIM_NUM)
+    BALK_DATA.append(BALK/SIM_NUM)
+    TIME_DATA.append(SERVICE_TIME/SERVED)
+    SERVED = 0
+    BALK = 0
+    SERVICE_TIME = 0
 
-env.run(until=120.0)
-print('SERVED = ', SERVED)
-print('LEFT = ', LEFT)
-print('SERVICETIME = ', SERVICETIME/SERVED)
+print('SERVED_DATA::', SERVED_DATA)
+print('BALK_DATA::', BALK_DATA)
+print('TIME_DATA::', TIME_DATA)
+    
 
