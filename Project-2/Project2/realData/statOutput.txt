@@ -1,0 +1,60 @@
+allArrival:
+	
+	weibull
+
+	mean 63.000  variance: 7301.055 range: (1.000000, 633.000000)
+
+	ChiSquare Statistic 41.333 P value 0.050
+	H0: (null hypothesis) Sample data follows the hypothesized distribution.
+	H1: (alternative hypothesis) Sample data does not follow a hypothesized distribution.
+	we can not reject the null hypothesis
+
+	alpha: 0.877 beta: 58.541
+
+
+allOrder:
+	
+	lognorm
+
+	mean 54.505  variance: 3122.919 range: (1.000000, 276.000000)
+
+	ChiSquare Statistic 39.133 P value 0.079
+	H0: (null hypothesis) Sample data follows the hypothesized distribution.
+	H1: (alternative hypothesis) Sample data does not follow a hypothesized distribution.
+	we can not reject the null hypothesis
+
+	alpha: 0.965 beta: 35.072
+
+	std: 55.883
+
+
+allPayment:
+	
+	lognorm
+
+	mean 58.661  variance: 3344.726 range: (5.000000, 282.000000)
+
+	ChiSquare Statistic 40.671 P value 0.058
+	H0: (null hypothesis) Sample data follows the hypothesized distribution.
+	H1: (alternative hypothesis) Sample data does not follow a hypothesized distribution.
+	we can not reject the null hypothesis
+
+	alpha: 0.830 beta: 40.813  
+
+	std: 57.834
+
+
+allPickup:
+
+	lognorm
+
+	mean 52.051  variance: 2647.570 range: (1.000000, 346.000000)
+
+	ChiSquare Statistic 21.063 P value 0.823
+	H0: (null hypothesis) Sample data follows the hypothesized distribution.
+	H1: (alternative hypothesis) Sample data does not follow a hypothesized distribution.
+	we can not reject the null hypothesis
+
+	alpha: 0.995 beta: 33.672 
+
+	std: 51.455
