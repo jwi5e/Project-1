@@ -1,0 +1,48 @@
+DATA FROM SIMULATION:
+
+ARRIVAL:
+	
+	mean 0.881  variance: 0.874 range: (0.000522, 7.193073)
+	standard deviation 0.935
+	
+	fit_alpha 0.952 fit_beta 0.861
+	ChiSquare Statistic 33.634 P value 0.213
+	H0: (null hypothesis) Sample data follows the hypothesized distribution.
+	H1: (alternative hypothesis) Sample data does not follow a hypothesized distribution.
+	we can not reject the null hypothesis
+	
+	
+ORDER:
+
+	mean 4.560  variance: 38.581 range: (0.178423, 44.068302)
+	tandard deviation 6.211
+	
+	fit_alpha 1.053 fit_beta 2.568
+	ChiSquare Statistic 19.399 P value 0.885
+	H0: (null hypothesis) Sample data follows the hypothesized distribution.
+	H1: (alternative hypothesis) Sample data does not follow a hypothesized distribution.
+	we can not reject the null hypothesis
+	
+
+PAYMENT:
+	
+	mean 4.047  variance: 18.286 range: (0.300229, 31.904013)
+	standard deviation 4.276
+	
+	fit_alpha 0.964 fit_beta 2.575
+	ChiSquare Statistic 19.421 P value 0.885
+	H0: (null hypothesis) Sample data follows the hypothesized distribution.
+	H1: (alternative hypothesis) Sample data does not follow a hypothesized distribution.
+	we can not reject the null hypothesis
+	
+	
+PICKUP:
+
+	mean 3.708  variance: 16.359 range: (0.117006, 20.697244)
+	standard deviation 4.045
+	
+	fit_alpha 0.969 fit_beta 2.333
+	ChiSquare Statistic 28.847 P value 0.420
+	H0: (null hypothesis) Sample data follows the hypothesized distribution.
+	H1: (alternative hypothesis) Sample data does not follow a hypothesized distribution.
+	we can not reject the null hypothesis
